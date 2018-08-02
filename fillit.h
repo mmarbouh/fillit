@@ -1,6 +1,6 @@
 #ifndef FILLIT_H
 # define FILLIT_H
-# define BUFF_SIZE_FILL 1
+# define BUFFER_SIZE 1
 # define BLOCK '#'
 # define EMPTY '.'
 # define NEWLINE '\n' 
@@ -28,8 +28,9 @@
 /*Reading fuctions*/
 char	*read_input(char *filename);
 char	**load_input(char *input);
-void	trim(char *str);
+void	free_afterload(char **tab);
 
+void	change_end(char **src, int bytes);
 void	rename_blocks(char **src);
 void	trim_newline(char **src);
 
