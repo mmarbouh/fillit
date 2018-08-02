@@ -13,8 +13,8 @@ int		main(int ac, char **av)
 	size_t len = has_newlines(input);
 
 	char **test = load_input(input);
-	rename_blocks(test);
 	trim_newline(test);
+	rename_blocks(test);
 	//char **map = new_map(len);
 	//print_map(map, initial_board_size(len));
 	solve(test, len);
