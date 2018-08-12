@@ -35,14 +35,13 @@ void	rename_blocks(char **src);
 void	trim_newline(char **src);
 
 
-/*Checking functions*/
+/*File Checking functions*/
 int		has_newlines(char *str);
-int		check_all_tetriminos(char *str);
-int		check_tetriminos(char	*str);
-int		check_chars(char *str);
+int		check_all_tetriminos(char *str, int bytes);
+int		check_all_chars(char *str);
 int		is_valid_char(char c);
 
-/*Validity*/
+/* pattern/tetrimino Validity */
 int		valid_pattern(char **src, int blocks);
 void	populate_valid(int i, char valid[20][15]);
 //t_bool		bool_strstr(const char *src, const char *to_find);

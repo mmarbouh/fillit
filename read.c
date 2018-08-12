@@ -16,11 +16,11 @@ char	*read_input(char *filename)
 		exit(0);
   	}
 
-	if (!(tmp = (char *)malloc(sizeof(char)*(26*6) + 1)))
-    	return (NULL);
+	if (!(tmp = (char *)malloc(sizeof(char) * (26 * 21))))
+    	return (0);
  	i = -1;
 	while (read(fd, buffer, BUFFER_SIZE) != 0)
-    	tmp[++i] = *buffer;
+		tmp[++i] = *buffer;
     tmp[i] = '\0';
   	close(fd);
 	return (tmp);
@@ -103,17 +103,19 @@ char	**load_input(char *input)
 	int		j;
 	int		k;
 	char	**ret;
+	int		blocks;
 
-	if(!(ret = (char**)malloc(sizeof(char *) * has_newlines(input) + 1)))
+	blocks = has_newlines(input);
+	if(!(ret = (char**)malloc(sizeof(char *) * (blocks + 1))))
 		return (NULL);
 	i = 0;
 	k = 0;
 	while (input[i])
 	{
 		j = 0;
-		if(!(ret[k] = (char *)malloc(sizeof(char) * 21 + 1)))
+		if(!(ret[k] = (char *)malloc(sizeof(char) * 20)))
 			return (NULL);
-		while(j < 20 && input[i] != '\0')
+		while(j < 20 && is_valid_char(input[i]))
 		{
 			ret[k][j] = input[i];
 			++j;
@@ -123,7 +125,7 @@ char	**load_input(char *input)
 		++i;
 		++k;
 	}
-	ret[has_newlines(input)] = NULL;
+	ret[k] = NULL;
 	return (ret);
 }
 
@@ -131,13 +133,13 @@ void	free_afterload(char **tbl)
 {
 	size_t	i;
 
-	i = 0;
+	i = -1;
 	if (tbl == 0 || *tbl == 0)
 		return ;
-	while (tbl[i])
+	while (tbl[++i])
 	{
-		free(tbl[i]);
-		++i;
+		if (tbl[i] != NULL)
+			free(tbl[i]);
 	}
 	free(tbl);
 	tbl = NULL;

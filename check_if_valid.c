@@ -3,73 +3,62 @@
 int		is_valid_char(char c)
 {
 	/*
-		+checks if char is allowed. 1 if yes else 0.
+	 * checks if a char is allowed. 1 if yes else 0.
 	*/
 	return ((c == '\n' || c == '#'|| c == '.')? 1 : 0);
 }
 
-int		check_chars(char *str)
+int		check_all_chars(char *str)
 {
+	/*
+	 * checks if chars are valid
+	 * returns 1 if yes otherwise 0
+	*/
 	int		i;
 
-	i = 0;
-	while (str[i])
+	i = -1;
+	while (str[++i])
 	{
 		if(!(is_valid_char(str[i])))
 			return (0);
-		++i;
 	}
 	return (1);
 }
 
-int		check_tetriminos(char	*str)
+int		check_all_tetriminos(char *str, int bytes)
 {
 	/*
-		+Checks that a given tetriminos has 4 blocks.
-		+Returns 1 if valid or 0 if not.
-		+Params str is the pointer to the beginning 
-			of the block in question.
-	*/	
-	int		i;
-	int		count_blocks;
-	int		count_newlines;
+	 *checks each block for 4 # and 12 .
+	 * count1 counts tetriminoes parts
+	 * count2 counts empty cells
+	 */
+	
+	int n;
+	int i;
+	int count1;
+	int count2;
 
-	if (strlen(str) < 20)
-		return (0);
-	i = 0;
-	count_blocks = 0;
-	count_newlines = 0;
-	while (count_newlines < 5)
+	n = 0;
+	while (n < bytes)
 	{
-		if (str[i] == '\n')
-			++count_newlines;
-		if (str[i] == '#')
-			++count_blocks;
-		++i;
+		i = -1;
+		count1 = 0;
+		count2 = 0;
+		while (++i < 19)
+		{
+			if (str[n + i] == '#')
+				count1++;
+			if (str[n + i] == '.')
+				count2++;
+		}
+		if (count1 != 4)
+			return (false);
+		if (count2 != 12)
+			return (false);
+		n += 21;
 	}
-	return (count_blocks == 4);
+	return (true);
 }
-
-int		check_all_tetriminos(char *str)
-{
-	/*
-		+counts the number of #.
-		+then compares it to the output of has_newlines times 4.
-	*/
-	int 	i;
-	int		count;
-
-	i = 0;
-	count = 0;
-	while (str[i])
-	{
-		if (str[i] == '#')
-			++count;
-		++i;
-	}
-	return ((has_newlines(str)*4 ==  count));
-}
-
 int		has_newlines(char *str)
 {
 	/*
@@ -91,5 +80,7 @@ int		has_newlines(char *str)
 			return (0);
 		++i;
 	}
+	if (str[--i] != '\n')
+		++count;
 	return (count/5);
 }

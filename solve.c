@@ -110,6 +110,8 @@ int		solve(char **tbl, size_t blocks)
 
 	map_size = initial_board_size(blocks);
 	CHK1((map = new_map(map_size)) == 0, error(), 0);
+	print_map(map, map_size);
+	puts("     ");
 	while (recursion(tbl, map, 0, 0) == false)
 	{
 		map_size++;
